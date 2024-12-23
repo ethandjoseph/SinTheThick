@@ -1,5 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
+#include "Dependencies/SynthSound.h"
+#include "Dependencies/SynthVoice.h"
 
 class SinthethiccAudioProcessor  : public juce::AudioProcessor
 {
@@ -35,7 +37,15 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    int getCurrentMidiNoteNumber() const;
+
+    juce::AudioProcessorValueTreeState apvts;
+
 private:
+    juce::Synthesiser synth;
+    int currentMidiNoteNumber{ -1 };
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    void setParameters();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SinthethiccAudioProcessor)
 };
