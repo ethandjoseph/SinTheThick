@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="B9RLyC" name="Sinthethicc" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Owninstrument"
+              pluginFormats="buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
+  <MAINGROUP id="wBI8Gx" name="Sinthethicc">
+    <GROUP id="{1433BA0D-4703-EBE3-2E9A-83EAE3754CAC}" name="Source">
+      <FILE id="nXl8Ut" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="H1Pxs2" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="uibpbV" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="zexTMF" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <GROUP id="{79435BD1-0FFE-961D-BE2E-1E46BAAA0146}" name="Dependencies">
+        <FILE id="ZLVL37" name="ImpulseResponder.cpp" compile="1" resource="0"
+              file="Source/Dependencies/ImpulseResponder.cpp"/>
+        <FILE id="zdbn8k" name="ImpulseResponder.h" compile="0" resource="0"
+              file="Source/Dependencies/ImpulseResponder.h"/>
+        <FILE id="YXJpcN" name="JUVerb.cpp" compile="1" resource="0" file="Source/Dependencies/JUVerb.cpp"/>
+        <FILE id="zSuOwI" name="JUVerb.h" compile="0" resource="0" file="Source/Dependencies/JUVerb.h"/>
+        <FILE id="QeqwhK" name="OvertonePassFilter.cpp" compile="1" resource="0"
+              file="Source/Dependencies/OvertonePassFilter.cpp"/>
+        <FILE id="Za072r" name="OvertonePassFilter.h" compile="0" resource="0"
+              file="Source/Dependencies/OvertonePassFilter.h"/>
+        <FILE id="sj8HXY" name="SynthSound.h" compile="0" resource="0" file="Source/Dependencies/SynthSound.h"/>
+        <FILE id="IB8D8L" name="SynthVoice.cpp" compile="1" resource="0" file="Source/Dependencies/SynthVoice.cpp"/>
+        <FILE id="EJhDhK" name="SynthVoice.h" compile="0" resource="0" file="Source/Dependencies/SynthVoice.h"/>
+      </GROUP>
+      <GROUP id="{2238C567-598E-CC0D-DFD6-2937958F5F7B}" name="Assets">
+        <FILE id="cvA3Y6" name="largeRoom.wav" compile="0" resource="1" file="Source/Assets/largeRoom.wav"/>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Sinthethicc"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Sinthethicc"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../Program Files/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
