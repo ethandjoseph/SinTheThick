@@ -173,6 +173,17 @@ int SinthethiccAudioProcessor::getCurrentMidiNoteNumber() const
     return -1;
 }
 
+void SinthethiccAudioProcessor::setIR(juce::File file)
+{
+    for (int i = 0; i < synth.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
+        {
+            voice->setIR(file);
+        }
+    }
+}
+
 juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::createParameterLayout()
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
@@ -187,9 +198,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERSUSTAIN", "Filter Sustain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.1f }, 1.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERRELEASE", "Filter Release", juce::NormalisableRange<float> { 0.0f, 3.0f, 0.1f }, 0.1f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_ROOM_SIZE", "Room Size", 0.0f, 1.0f, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_ROOM_SIZE", "Room Size", 0.0f, 1.0f, 0.4f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_DAMPING", "Damping", 0.0f, 1.0f, 0.5f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_WIDTH", "Width", 0.0f, 1.0f, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_WIDTH", "Width", 0.0f, 1.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("JUVERB_FREEZE", "Freeze", false));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_DRY", "Ju Dry", 0.0f, 100.0f, 00.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("JUVERB_WET", "Ju Wet", 0.0f, 100.0f, 100.0f));
@@ -200,7 +211,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SYNTH_GAIN", "Synth Dry", 0.0f, 100.0f, 100.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("THICC_GAIN", "Thicc Wet", 0.0f, 100.0f, 50.0f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT_GAIN", "Output Level", juce::NormalisableRange<float> { -40.0f, 6.0f, 0.1f }, 0.f, "dB")); //0.0f, 100.0f, 50.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT_GAIN", "Output Level", juce::NormalisableRange<float> { -60.0f, 18.0f, 0.1f }, 0.f, "dB"));
 
     return { params.begin(), params.end() };
 }

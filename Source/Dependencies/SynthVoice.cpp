@@ -130,7 +130,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 	juce::dsp::AudioBlock<float> oscBlock(oscBuffer);
 	osc.process(juce::dsp::ProcessContextReplacing<float>(oscBlock));
 
-	// sum noise buffer and osc buffer into synth buffer channelwise
+	// sum noise and osc into synth
 	for (int ch = 0; ch < synthBuffer.getNumChannels(); ++ch)
 	{
 		auto* noiseBufferPtr = noiseBuffer.getReadPointer(ch);
@@ -144,14 +144,14 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
 
-	/// thicc'ning
+	// thicc'ning
 	juverbBuffer = synthBuffer;
 	juVerb.process(juverbBuffer);
 
 	irBuffer = synthBuffer;
 	conv.process(irBuffer);
 
-	// sum juverb and ir into thiccBuffer channelwise
+	// sum juverb and ir into thicc
 	for (int ch = 0; ch < thiccBuffer.getNumChannels(); ++ch)
 	{
 		auto* juverbBufferPtr = juverbBuffer.getReadPointer(ch);
@@ -159,7 +159,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 		auto* thiccBufferPtr = thiccBuffer.getWritePointer(ch);
 		for (int s = 0; s < thiccBuffer.getNumSamples(); ++s)
 		{
-			thiccBufferPtr[s] = juverbBufferPtr[s] + irBufferPtr[s];
+			thiccBufferPtr[s] = juverbBufferPtr[s] + irBufferPtr[s]*8.0;
 		}
 	}
 
@@ -184,7 +184,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 	synthDryGain.process(juce::dsp::ProcessContextReplacing<float>(synthBlock));
 	thiccGain.process(juce::dsp::ProcessContextReplacing<float>(thiccBlock));
 
-	// sum synth buffer and thicc buffer into sumBuffer channelwise
+	// merge synth and thicc
 	for (int ch = 0; ch < sumBuffer.getNumChannels(); ++ch)
 	{
 		auto* synthBufferPtr = synthBuffer.getReadPointer(ch);
@@ -212,4 +212,10 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 int SynthVoice::getCurrentMidiNoteNumber() const
 {
 	return currentMidiNoteNumber;
+}
+
+void SynthVoice::setIR(juce::File file)
+{
+	conv.reset();
+	conv.loadImpulseResponse(file, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes, 0);
 }

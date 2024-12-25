@@ -13,7 +13,7 @@ public:
     void resized() override;
 
 private:
-    // ADSR sliders
+    
 	juce::Slider synthAttackSlider;
 	juce::Slider synthDecaySlider;
 	juce::Slider synthSustainSlider;
@@ -26,7 +26,7 @@ private:
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthDecaySliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthSustainSliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthReleaseSliderAttachment;
-	// juverb sliders
+	
 	juce::Slider juverbSizeSlider;
 	juce::Slider juverbDampingSlider;
 	juce::Slider juverbWidthSlider;
@@ -44,14 +44,17 @@ private:
 	std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> juverbFreezeButtonAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbDrySliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbWetSliderAttachment;
-	// IR sliders
+	
+	juce::TextButton loadButton;
+	juce::Label irName;
+	std::unique_ptr<juce::FileChooser> fileChooser;
 	juce::Slider irDrySlider;
 	juce::Slider irWetSlider;
 	juce::Label irDryLabel;
 	juce::Label irWetLabel;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> irDrySliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> irWetSliderAttachment;
-	// output sliders
+	
 	juce::Slider synthGainSlider;
 	juce::Slider thiccGainSlider;
 	juce::Slider outputGainSlider;

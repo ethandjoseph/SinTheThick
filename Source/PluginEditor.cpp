@@ -4,7 +4,6 @@
 SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // set all slider styles to rotary vertical drag
 	synthAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	synthDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	synthSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
@@ -19,9 +18,39 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	synthGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	thiccGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	outputGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbFreezeButton.setClickingTogglesState(true);
 
-	// set all slider textboxes styles to below and 100 by 20
+	synthAttackSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	synthDecaySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	synthSustainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	synthReleaseSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	juverbSizeSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	juverbDampingSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	juverbWidthSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	juverbDrySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	juverbWetSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	irDrySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	irWetSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	synthGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	thiccGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	outputGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+
+	//juverbFreezeButton.setClickingTogglesState(true);
+	loadButton.onClick = [this]
+		{
+			fileChooser = std::make_unique<juce::FileChooser>("Select .wav IR file to load", audioProcessor.root, "*.wav");
+			const auto fileChooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+			fileChooser->launchAsync(fileChooserFlags, [this](const juce::FileChooser& fc)
+				{
+					auto file = fc.getResult();
+					if (file.exists())
+					{
+						audioProcessor.setIR(file);
+						irName.setText(file.getFileName().substring(0, 14), juce::dontSendNotification);
+						irName.setJustificationType(juce::Justification::centred);
+					}
+				});
+		};
+
 	synthAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	synthDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	synthSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
@@ -37,7 +66,6 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	thiccGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	outputGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 
-	// set suffix values for all sliders
 	synthAttackSlider.setTextValueSuffix("s");
 	synthDecaySlider.setTextValueSuffix("s");
 	synthSustainSlider.setTextValueSuffix("s");
@@ -53,7 +81,6 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	thiccGainSlider.setTextValueSuffix("%");
 	outputGainSlider.setTextValueSuffix("dB");
 
-	// set all slider labels
 	synthAttackLabel.setText("Attack", juce::dontSendNotification);
 	synthDecayLabel.setText("Decay", juce::dontSendNotification);
 	synthSustainLabel.setText("Sustain", juce::dontSendNotification);
@@ -62,6 +89,8 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	juverbDampingLabel.setText("Damping", juce::dontSendNotification);
 	juverbWidthLabel.setText("Width", juce::dontSendNotification);
 	juverbFreezeButton.setButtonText("Freeze");
+	loadButton.setButtonText("Load IR");
+	loadButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e2545));
 	juverbDryLabel.setText("Ju Dry", juce::dontSendNotification);
 	juverbWetLabel.setText("Ju Wet", juce::dontSendNotification);
 	irDryLabel.setText("IR Dry", juce::dontSendNotification);
@@ -70,7 +99,6 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	thiccGainLabel.setText("Thicc Gain", juce::dontSendNotification);
 	outputGainLabel.setText("Output Gain", juce::dontSendNotification);
 
-	// attach labels to respective sliders
 	synthAttackLabel.attachToComponent(&synthAttackSlider, false);
 	synthDecayLabel.attachToComponent(&synthDecaySlider, false);
 	synthSustainLabel.attachToComponent(&synthSustainSlider, false);
@@ -86,7 +114,6 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	thiccGainLabel.attachToComponent(&thiccGainSlider, false);
 	outputGainLabel.attachToComponent(&outputGainSlider, false);
 
-	// add all sliders to the editor
 	addAndMakeVisible(synthAttackSlider);
 	addAndMakeVisible(synthDecaySlider);
 	addAndMakeVisible(synthSustainSlider);
@@ -95,6 +122,8 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(juverbDampingSlider);
 	addAndMakeVisible(juverbWidthSlider);
 	addAndMakeVisible(juverbFreezeButton);
+	addAndMakeVisible(loadButton);
+	addAndMakeVisible(irName);
 	addAndMakeVisible(juverbDrySlider);
 	addAndMakeVisible(juverbWetSlider);
 	addAndMakeVisible(irDrySlider);
@@ -103,7 +132,6 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(thiccGainSlider);
 	addAndMakeVisible(outputGainSlider);
 
-	// attach attachments
 	synthAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", synthAttackSlider);
 	synthDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", synthDecaySlider);
 	synthSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", synthSustainSlider);
@@ -120,7 +148,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	thiccGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_GAIN", thiccGainSlider);
 	outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "OUTPUT_GAIN", outputGainSlider);
 
-    setSize (840, 840);
+    setSize (600, 840);
 }
 
 SinthethiccAudioProcessorEditor::~SinthethiccAudioProcessorEditor()
@@ -129,7 +157,7 @@ SinthethiccAudioProcessorEditor::~SinthethiccAudioProcessorEditor()
 
 void SinthethiccAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+	g.fillAll(juce::Colour(0xff1e2545));
 }
 
 void SinthethiccAudioProcessorEditor::resized()
@@ -140,28 +168,26 @@ void SinthethiccAudioProcessorEditor::resized()
 	int sliderHeight = sliderHeightWithLabel * 4 / 5;
 	int labelHeight = sliderHeightWithLabel - sliderHeight;
 
-	// first row of sliders
 	auto row1 = area.removeFromTop(sliderHeight + labelHeight);
 	synthAttackSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	synthDecaySlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	synthSustainSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	synthReleaseSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 
-	// second row of sliders
 	auto row2 = area.removeFromTop(sliderHeight + labelHeight);
 	juverbSizeSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	juverbDampingSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	juverbWidthSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	juverbFreezeButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	//juverbFreezeButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	loadButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	irName.setBounds(loadButton.getBounds().removeFromBottom(32));
 
-	// third row of sliders
 	auto row3 = area.removeFromTop(sliderHeight + labelHeight);
 	juverbDrySlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	juverbWetSlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	irDrySlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	irWetSlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 
-	// fourth row of sliders centered
 	auto row4 = area.removeFromTop(sliderHeight + labelHeight);
 	synthGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	thiccGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));

@@ -15,8 +15,8 @@ void ImpulseResponder::prepare(juce::dsp::ProcessSpec spec)
 	conv.reset();
 	conv.prepare(spec);
 	conv.loadImpulseResponse(
-		BinaryData::largeRoom_wav,
-		BinaryData::largeRoom_wavSize,
+		BinaryData::conferenceRoom_wav, // largeRoom / conferenceRoom
+		BinaryData::conferenceRoom_wavSize,
 		juce::dsp::Convolution::Stereo::yes,
 		juce::dsp::Convolution::Trim::yes, 0,
 		juce::dsp::Convolution::Normalise::yes);

@@ -39,7 +39,10 @@ public:
 
     int getCurrentMidiNoteNumber() const;
 
+    void setIR(juce::File file);
+
     juce::AudioProcessorValueTreeState apvts;
+    juce::File root, savedFile;
 
 private:
     juce::Synthesiser synth;

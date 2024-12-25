@@ -31,6 +31,7 @@ public:
 		);
 	void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 	int getCurrentMidiNoteNumber() const;
+	void setIR(juce::File file);
 private:
 	juce::AudioBuffer<float> synthBuffer;
 	juce::AudioBuffer<float> noiseBuffer;

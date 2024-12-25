@@ -8,11 +8,17 @@
 
 namespace BinaryData
 {
+    extern const char*   chamberIR_wav;
+    const int            chamberIR_wavSize = 255862;
+
+    extern const char*   conferenceRoom_wav;
+    const int            conferenceRoom_wavSize = 131756;
+
     extern const char*   largeRoom_wav;
     const int            largeRoom_wavSize = 1639532;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 1;
+    const int namedResourceListSize = 3;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
