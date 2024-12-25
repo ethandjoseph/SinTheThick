@@ -1,7 +1,7 @@
 # Sinthethicc
  Simple flute-like synth with unique thicc'ning algo.
 
- The thicc'ning algo is inspired by a discussion that I had with Mr. Krishna Chetan of Pitch Innovations wherein he briefly spoke about the idea of using parallel reverbs to "thicken a sound".
+ The thicc'ning algo is inspired by a discussion that I had with [Mr. Krishna Chetan](https://www.linkedin.com/in/krishna-chetan-t-r-8b0a2a66/) of [Pitch Innovations](https://www.pitchinnovations.com/) wherein he briefly spoke about the idea of using parallel reverbs to "thicken a sound".
  I decided to give this a shot but by refining it using my [overtonePass filter](https://github.com/ethandjoseph/Overtone-Pass-Filter).
 
 ### Future goals:
