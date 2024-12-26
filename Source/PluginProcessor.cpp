@@ -211,6 +211,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SYNTH_GAIN", "Synth Dry", 0.0f, 100.0f, 100.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("THICC_GAIN", "Thicc Wet", 0.0f, 100.0f, 50.0f));
 
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("THICC_SATURATION", "Thicc Saturation", juce::NormalisableRange<float> { 0.0f, 100.0f, 1.f }, 50.f));
+
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT_GAIN", "Output Level", juce::NormalisableRange<float> { -60.0f, 18.0f, 0.1f }, 0.f, "dB"));
 
     return { params.begin(), params.end() };
@@ -242,6 +244,7 @@ void SinthethiccAudioProcessor::setParameters()
 
 	float synthGain = *apvts.getRawParameterValue("SYNTH_GAIN");
 	float thiccGain = *apvts.getRawParameterValue("THICC_GAIN");
+	float thiccSaturationPercent = *apvts.getRawParameterValue("THICC_SATURATION");
 
     float gain = *apvts.getRawParameterValue("OUTPUT_GAIN");
     for (int i = 0; i < synth.getNumVoices(); ++i)
@@ -260,6 +263,7 @@ void SinthethiccAudioProcessor::setParameters()
 				irDry,
 				irWet,
 				synthGain,
+                thiccSaturationPercent,
 				thiccGain,
                 gain
                 );

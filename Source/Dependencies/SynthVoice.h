@@ -26,6 +26,7 @@ public:
 		float irDry,
 		float irWet,
 		float synth_gain,
+		float thicc_saturation_percent,
 		float thicc_gain,
 		float output_gain
 		);
@@ -52,6 +53,7 @@ private:
 	juce::dsp::Gain<float> synthDryGain;
 
 	juce::AudioBuffer<float> thiccBuffer;
+	float saturationThreshold = 0.5f;
 
 	juce::ADSR filterAdsr;
 	juce::ADSR::Parameters filterAdsrParameters;

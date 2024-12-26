@@ -56,12 +56,15 @@ private:
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> irWetSliderAttachment;
 	
 	juce::Slider synthGainSlider;
+	juce::Slider saturationSlider;
 	juce::Slider thiccGainSlider;
 	juce::Slider outputGainSlider;
 	juce::Label synthGainLabel;
+	juce::Label saturationLabel;
 	juce::Label thiccGainLabel;
 	juce::Label outputGainLabel;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthGainSliderAttachment;
+	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> saturationSliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> thiccGainSliderAttachment;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outputGainSliderAttachment;
 

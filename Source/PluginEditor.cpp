@@ -16,6 +16,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDrySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	irWetSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	synthGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+	saturationSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	thiccGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 	outputGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 
@@ -31,6 +32,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDrySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 	irWetSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 	synthGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	saturationSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 	thiccGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 	outputGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 
@@ -63,6 +65,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDrySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	irWetSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	synthGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
+	saturationSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	thiccGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	outputGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 
@@ -78,6 +81,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDrySlider.setTextValueSuffix("%");
 	irWetSlider.setTextValueSuffix("%");
 	synthGainSlider.setTextValueSuffix("%");
+	saturationSlider.setTextValueSuffix("%");
 	thiccGainSlider.setTextValueSuffix("%");
 	outputGainSlider.setTextValueSuffix("dB");
 
@@ -96,6 +100,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDryLabel.setText("IR Dry", juce::dontSendNotification);
 	irWetLabel.setText("IR Wet", juce::dontSendNotification);
 	synthGainLabel.setText("Synth Gain", juce::dontSendNotification);
+	saturationLabel.setText("Thicc Saturation", juce::dontSendNotification);
 	thiccGainLabel.setText("Thicc Gain", juce::dontSendNotification);
 	outputGainLabel.setText("Output Gain", juce::dontSendNotification);
 
@@ -111,6 +116,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDryLabel.attachToComponent(&irDrySlider, false);
 	irWetLabel.attachToComponent(&irWetSlider, false);
 	synthGainLabel.attachToComponent(&synthGainSlider, false);
+	saturationLabel.attachToComponent(&saturationSlider, false);
 	thiccGainLabel.attachToComponent(&thiccGainSlider, false);
 	outputGainLabel.attachToComponent(&outputGainSlider, false);
 
@@ -129,6 +135,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(irDrySlider);
 	addAndMakeVisible(irWetSlider);
 	addAndMakeVisible(synthGainSlider);
+	addAndMakeVisible(saturationSlider);
 	addAndMakeVisible(thiccGainSlider);
 	addAndMakeVisible(outputGainSlider);
 
@@ -145,6 +152,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	irDrySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IR_DRY", irDrySlider);
 	irWetSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IR_WET", irWetSlider);
 	synthGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SYNTH_GAIN", synthGainSlider);
+	saturationSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_SATURATION", saturationSlider);
 	thiccGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_GAIN", thiccGainSlider);
 	outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "OUTPUT_GAIN", outputGainSlider);
 
@@ -190,6 +198,7 @@ void SinthethiccAudioProcessorEditor::resized()
 
 	auto row4 = area.removeFromTop(sliderHeight + labelHeight);
 	synthGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	saturationSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	thiccGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	outputGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 }

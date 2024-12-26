@@ -78,6 +78,7 @@ void SynthVoice::setParameters(
 		float irDry,
 		float irWet,
 		float synth_gain,
+		float thicc_saturation_percent,
 		float thicc_gain,
 		float output_gain
 		)
@@ -87,6 +88,7 @@ void SynthVoice::setParameters(
 	juVerb.setParameters(juverbSize, juverbDamping, juverbWidth, juverbFreeze, juverbDry/100, juverbWet/100);
 	conv.setParameters(irDry, irWet);
 	synthDryGain.setGainLinear(synth_gain/100.);
+	saturationThreshold = 1.0f - thicc_saturation_percent / 200.0f;
 	thiccGain.setGainLinear(thicc_gain/100.);
 	outputGain.setGainDecibels(output_gain);
 }
@@ -171,7 +173,13 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 		auto* thiccBufferPtr = thiccBuffer.getWritePointer(ch);
 		for (int s = 0; s < thiccBuffer.getNumSamples(); ++s)
 		{
-			thiccBufferPtr[s] = std::tanh(thiccBufferPtr[s]);
+			// simple assymetric saturation
+			saturationThreshold = juce::jlimit(0.5f, 1.0f, saturationThreshold);
+			if (thiccBufferPtr[s] > saturationThreshold)
+			{
+				thiccBufferPtr[s] = saturationThreshold;
+				//thiccBufferPtr[s] = saturationThreshold + (thiccBufferPtr[s] - saturationThreshold) / (1.0f + std::abs(thiccBufferPtr[s]));
+			}
 		}
 	}
 
