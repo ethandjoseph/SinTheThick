@@ -1,4 +1,4 @@
-# Sinthethicc
+# SinThiccizer
  Simple flute-like synth with unique thicc'ning algo.
 
  The thicc'ning algo is inspired by a discussion that I had with [Mr. Krishna Chetan](https://www.linkedin.com/in/krishna-chetan-t-r-8b0a2a66/) of [Pitch Innovations](https://www.pitchinnovations.com/) wherein he briefly spoke about the idea of using parallel reverbs to "thicken a sound".
