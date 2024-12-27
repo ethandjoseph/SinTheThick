@@ -1,5 +1,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Components/SynthVoiceEditor.h"
 
 SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
@@ -37,7 +38,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	outputGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
 
 	//juverbFreezeButton.setClickingTogglesState(true);
-	loadButton.onClick = [this]
+	/*loadButton.onClick = [this]
 		{
 			fileChooser = std::make_unique<juce::FileChooser>("Select .wav IR file to load", audioProcessor.root, "*.wav");
 			const auto fileChooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
@@ -51,7 +52,9 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 						irName.setJustificationType(juce::Justification::centred);
 					}
 				});
-		};
+		};*/
+
+	loadButton.onClick = [this] {showReverberationSettingsWindow(); };
 
 	synthAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
 	synthDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
@@ -99,6 +102,8 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	juverbWetLabel.setText("Ju Wet", juce::dontSendNotification);
 	irDryLabel.setText("IR Dry", juce::dontSendNotification);
 	irWetLabel.setText("IR Wet", juce::dontSendNotification);
+	loadButton.setButtonText("Load IR");
+
 	synthGainLabel.setText("Synth Gain", juce::dontSendNotification);
 	saturationLabel.setText("Thicc Saturation", juce::dontSendNotification);
 	thiccGainLabel.setText("Thicc Gain", juce::dontSendNotification);
@@ -124,16 +129,17 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(synthDecaySlider);
 	addAndMakeVisible(synthSustainSlider);
 	addAndMakeVisible(synthReleaseSlider);
-	addAndMakeVisible(juverbSizeSlider);
+	/*addAndMakeVisible(juverbSizeSlider);
 	addAndMakeVisible(juverbDampingSlider);
 	addAndMakeVisible(juverbWidthSlider);
-	addAndMakeVisible(juverbFreezeButton);
+	addAndMakeVisible(juverbFreezeButton);*/
 	addAndMakeVisible(loadButton);
-	addAndMakeVisible(irName);
+	/*addAndMakeVisible(irName);
 	addAndMakeVisible(juverbDrySlider);
 	addAndMakeVisible(juverbWetSlider);
 	addAndMakeVisible(irDrySlider);
-	addAndMakeVisible(irWetSlider);
+	addAndMakeVisible(irWetSlider);*/
+
 	addAndMakeVisible(synthGainSlider);
 	addAndMakeVisible(saturationSlider);
 	addAndMakeVisible(thiccGainSlider);
@@ -183,10 +189,10 @@ void SinthethiccAudioProcessorEditor::resized()
 	synthReleaseSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 
 	auto row2 = area.removeFromTop(sliderHeight + labelHeight);
-	juverbSizeSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	/*juverbSizeSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	juverbDampingSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	juverbWidthSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	//juverbFreezeButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	juverbFreezeButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));*/
 	loadButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	irName.setBounds(loadButton.getBounds().removeFromBottom(32));
 
@@ -201,4 +207,19 @@ void SinthethiccAudioProcessorEditor::resized()
 	saturationSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	thiccGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
 	outputGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+}
+
+void SinthethiccAudioProcessorEditor::showReverberationSettingsWindow()
+{
+	juce::DialogWindow::LaunchOptions options;
+	options.content.setOwned(new SynthVoiceEditor(audioProcessor.apvts));
+
+	options.content->setSize(400, 200);
+	options.dialogTitle = "Row 4 Sliders";
+	options.dialogBackgroundColour = juce::Colour(0xff1e2545);
+	options.escapeKeyTriggersCloseButton = true;
+	options.useNativeTitleBar = true;
+	options.resizable = false;
+
+	options.launchAsync();
 }

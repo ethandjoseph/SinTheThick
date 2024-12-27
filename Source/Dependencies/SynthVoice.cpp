@@ -77,6 +77,8 @@ void SynthVoice::setParameters(
 		float juverbWet,
 		float irDry,
 		float irWet,
+		float newSinGain,
+		float newNoiseGain,
 		float synth_gain,
 		float thicc_saturation_percent,
 		float thicc_gain,
@@ -87,6 +89,8 @@ void SynthVoice::setParameters(
 	filterAdsr.setParameters(filterAdsrParameters);
 	juVerb.setParameters(juverbSize, juverbDamping, juverbWidth, juverbFreeze, juverbDry/100, juverbWet/100);
 	conv.setParameters(irDry, irWet);
+	oscGain.setGainLinear(newSinGain);
+	noiseGain = newNoiseGain;
 	synthDryGain.setGainLinear(synth_gain/100.);
 	saturationThreshold = 1.0f - thicc_saturation_percent / 200.0f;
 	thiccGain.setGainLinear(thicc_gain/100.);
@@ -124,6 +128,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
         for (int s = 0; s < noiseBuffer.getNumSamples(); ++s)
         {
             buffer[s] = random.nextFloat() * 0.25f - 0.125f;
+			buffer[s] *= noiseGain;
         }
     }
 
@@ -131,6 +136,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
 	juce::dsp::AudioBlock<float> oscBlock(oscBuffer);
 	osc.process(juce::dsp::ProcessContextReplacing<float>(oscBlock));
+	oscGain.process(juce::dsp::ProcessContextReplacing<float>(oscBlock));
 
 	// sum noise and osc into synth
 	for (int ch = 0; ch < synthBuffer.getNumChannels(); ++ch)

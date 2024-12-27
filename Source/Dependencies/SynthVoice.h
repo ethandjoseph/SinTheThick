@@ -25,6 +25,8 @@ public:
 		float juverbWet,
 		float irDry,
 		float irWet,
+		float newSinGain,
+		float newNoiseGain,
 		float synth_gain,
 		float thicc_saturation_percent,
 		float thicc_gain,
@@ -49,6 +51,10 @@ private:
 
 	juce::AudioBuffer<float> irBuffer;
 	ImpulseResponder conv;
+
+	float noiseGain = 1.0f;
+	float sinGain = 0.8f;
+	juce::dsp::Gain<float> oscGain;
 
 	juce::dsp::Gain<float> synthDryGain;
 

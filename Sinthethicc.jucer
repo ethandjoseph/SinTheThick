@@ -5,6 +5,16 @@
               pluginFormats="buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="wBI8Gx" name="Sinthethicc">
     <GROUP id="{1433BA0D-4703-EBE3-2E9A-83EAE3754CAC}" name="Source">
+      <GROUP id="{28D507FA-8E53-3B8E-B5B4-84A4B5FD7F9F}" name="Components">
+        <FILE id="PV9kcN" name="ReberberationEditor.cpp" compile="1" resource="0"
+              file="Source/Components/ReberberationEditor.cpp"/>
+        <FILE id="NtI3k4" name="ReberberationEditor.h" compile="0" resource="0"
+              file="Source/Components/ReberberationEditor.h"/>
+        <FILE id="fOeIPt" name="SynthVoiceEditor.cpp" compile="1" resource="0"
+              file="Source/Components/SynthVoiceEditor.cpp"/>
+        <FILE id="UjL1Fp" name="SynthVoiceEditor.h" compile="0" resource="0"
+              file="Source/Components/SynthVoiceEditor.h"/>
+      </GROUP>
       <FILE id="nXl8Ut" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="H1Pxs2" name="PluginProcessor.h" compile="0" resource="0"
