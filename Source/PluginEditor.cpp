@@ -214,7 +214,7 @@ void SinthethiccAudioProcessorEditor::showReverberationEditorWindow()
 	juce::DialogWindow::LaunchOptions options;
 	options.content.setOwned(new ReverberationEditor(audioProcessor.apvts, audioProcessor));
 	options.content->setSize(780, 261);
-	options.dialogTitle = "Synth Voice Settings";
+	options.dialogTitle = "Reverberators Settings";
 	options.dialogBackgroundColour = juce::Colour(0xff1e2545);
 	options.escapeKeyTriggersCloseButton = true;
 	options.useNativeTitleBar = true;
