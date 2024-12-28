@@ -4,10 +4,12 @@
  The thicc'ning algo is inspired by a discussion that I had with [Mr. Krishna Chetan](https://www.linkedin.com/in/krishna-chetan-t-r-8b0a2a66/) of [Pitch Innovations](https://www.pitchinnovations.com/) wherein he briefly spoke about the idea of using parallel reverbs to "thicken a sound".
  I decided to give this a shot, but by refining it using my [overtonePass filter](https://github.com/ethandjoseph/Overtone-Pass-Filter).
 
-![SinThiccizer output screenshot](https://github.com/ethandjoseph/SinThiccizer/blob/main/testBed%20screenshot.png)
+![SinThiccizer output screenshot](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/testBed%20screenshot.png) <br>
+![Reverb settings](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/reverberator%20settings%20screenshot.png)
+![Synth settings](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/synth%20voice%20settings%20screenshot.png)
 
 ## Signal Chain
-![Signal Chain](https://github.com/ethandjoseph/Sinthethicc/blob/main/Signal%20Chain.png)
+![Signal Chain](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/Signal%20Chain.png)
 
 ### Future goals:
 1. Make polyphonic
