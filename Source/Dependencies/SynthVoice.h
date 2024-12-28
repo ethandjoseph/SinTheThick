@@ -4,6 +4,7 @@
 #include "OvertonePassFilter.h"
 #include "JUVerb.h"
 #include "ImpulseResponder.h"
+#include "Waveshaper.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -17,6 +18,7 @@ public:
 	void setParameters(
 		juce::ADSR::Parameters adsrParameters,
 		juce::ADSR::Parameters filterAdsrParameters,
+		float newSinDelay,
 		float juverbSize,
 		float juverbDamping,
 		float juverbWidth,
@@ -25,12 +27,12 @@ public:
 		float juverbWet,
 		float irDry,
 		float irWet,
+		float balance,
 		float newSinGain,
 		float newNoiseGain,
 		float synth_gain,
-		float thicc_saturation_percent,
-		float thicc_gain,
-		float output_gain
+		float thicc_saturation_gain,
+		float thicc_gain
 		);
 	void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 	int getCurrentMidiNoteNumber() const;
@@ -44,13 +46,19 @@ private:
 	OvertonePassFilter overtonePassFilter;
 	OvertonePassFilter thiccOvertonePassFilter;
 	juce::ADSR adsr;
+	juce::ADSR sinAdsr;
 	juce::ADSR::Parameters adsrParameters;
+	juce::ADSR::Parameters sinAdsrParameters;
 
 	juce::AudioBuffer<float> juverbBuffer;
 	JUVerb juVerb;
 
 	juce::AudioBuffer<float> irBuffer;
 	ImpulseResponder conv;
+
+	float balance = 0.5f;
+	float juverbBalanceGain = 0.5f;
+	float irBalanceGain = 0.5f;
 
 	float noiseGain = 1.0f;
 	float sinGain = 0.8f;
@@ -59,7 +67,9 @@ private:
 	juce::dsp::Gain<float> synthDryGain;
 
 	juce::AudioBuffer<float> thiccBuffer;
-	float saturationThreshold = 0.5f;
+	juce::dsp::Gain<float> saturationGain;
+	Waveshaper waveshaper;
+	juce::dsp::Gain<float> saturationCompensationGain;
 
 	juce::ADSR filterAdsr;
 	juce::ADSR::Parameters filterAdsrParameters;
@@ -68,7 +78,6 @@ private:
 
 	juce::AudioBuffer<float> sumBuffer;
 	
-	juce::dsp::Gain<float> outputGain;
 	int currentMidiNoteNumber{ -1 };
 	bool isPrepared{ false };
 };

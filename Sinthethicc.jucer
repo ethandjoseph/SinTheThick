@@ -6,14 +6,15 @@
   <MAINGROUP id="wBI8Gx" name="Sinthethicc">
     <GROUP id="{1433BA0D-4703-EBE3-2E9A-83EAE3754CAC}" name="Source">
       <GROUP id="{28D507FA-8E53-3B8E-B5B4-84A4B5FD7F9F}" name="Components">
-        <FILE id="PV9kcN" name="ReberberationEditor.cpp" compile="1" resource="0"
-              file="Source/Components/ReberberationEditor.cpp"/>
-        <FILE id="NtI3k4" name="ReberberationEditor.h" compile="0" resource="0"
-              file="Source/Components/ReberberationEditor.h"/>
+        <FILE id="PV9kcN" name="ReverberationEditor.cpp" compile="1" resource="0"
+              file="Source/Components/ReverberationEditor.cpp"/>
+        <FILE id="NtI3k4" name="ReverberationEditor.h" compile="0" resource="0"
+              file="Source/Components/ReverberationEditor.h"/>
         <FILE id="fOeIPt" name="SynthVoiceEditor.cpp" compile="1" resource="0"
               file="Source/Components/SynthVoiceEditor.cpp"/>
         <FILE id="UjL1Fp" name="SynthVoiceEditor.h" compile="0" resource="0"
               file="Source/Components/SynthVoiceEditor.h"/>
+        <FILE id="iqANjb" name="VerticalMeter.h" compile="0" resource="0" file="Source/Components/VerticalMeter.h"/>
       </GROUP>
       <FILE id="nXl8Ut" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
@@ -36,12 +37,16 @@
         <FILE id="sj8HXY" name="SynthSound.h" compile="0" resource="0" file="Source/Dependencies/SynthSound.h"/>
         <FILE id="IB8D8L" name="SynthVoice.cpp" compile="1" resource="0" file="Source/Dependencies/SynthVoice.cpp"/>
         <FILE id="EJhDhK" name="SynthVoice.h" compile="0" resource="0" file="Source/Dependencies/SynthVoice.h"/>
+        <FILE id="xRIKEc" name="Waveshaper.h" compile="0" resource="0" file="Source/Dependencies/Waveshaper.h"/>
       </GROUP>
       <GROUP id="{2238C567-598E-CC0D-DFD6-2937958F5F7B}" name="Assets">
         <FILE id="fa05OZ" name="chamberIR.wav" compile="0" resource="1" file="Source/Assets/chamberIR.wav"/>
         <FILE id="qTHmxX" name="conferenceRoom.wav" compile="0" resource="1"
               file="Source/Assets/conferenceRoom.wav"/>
         <FILE id="cvA3Y6" name="largeRoom.wav" compile="0" resource="1" file="Source/Assets/largeRoom.wav"/>
+        <FILE id="OkxpCD" name="main_bg.png" compile="0" resource="1" file="Source/Assets/main_bg.png"/>
+        <FILE id="zI6JFI" name="synth_bg.png" compile="0" resource="1" file="Source/Assets/synth_bg.png"/>
+        <FILE id="cVq4w6" name="verb_bg.png" compile="0" resource="1" file="Source/Assets/verb_bg.png"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

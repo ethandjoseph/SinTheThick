@@ -41,6 +41,8 @@ public:
 
     void setIR(juce::File file);
 
+    float getRMSValue(const int bus, const int channel) const;
+
     juce::AudioProcessorValueTreeState apvts;
     juce::File root, savedFile;
 
@@ -48,6 +50,8 @@ private:
     juce::Synthesiser synth;
     int currentMidiNoteNumber{ -1 };
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+	juce::dsp::Gain<float> outputGain;
+    juce::LinearSmoothedValue<float> outputRMSLevelLeft, outputRMSLevelRight;
     void setParameters();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SinthethiccAudioProcessor)

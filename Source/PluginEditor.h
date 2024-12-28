@@ -1,73 +1,58 @@
 #pragma once
-
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Components/VerticalMeter.h"
 
-class SinthethiccAudioProcessorEditor  : public juce::AudioProcessorEditor
+class SinthethiccAudioProcessorEditor : public juce::AudioProcessorEditor, public juce::Timer
 {
 public:
     SinthethiccAudioProcessorEditor (SinthethiccAudioProcessor&);
     ~SinthethiccAudioProcessorEditor() override;
 
+	void timerCallback() override;
     void paint (juce::Graphics&) override;
     void resized() override;
 
-	void showReverberationSettingsWindow();
+	void showSynthVoiceEditorWindow();
+
+	void showReverberationEditorWindow();
+
+	VerticalGradientMeter inputVUMeterLeft, inputVUMeterRight, outputVUMeterLeft, outputVUMeterRight;
 
 private:
     
+    juce::Label inputNoteLabel;
+	juce::Label inputNoteValueLabel;
+    
+    juce::Label voicingLabel;
+
+    juce::TextButton synthVoiceButton;
+	juce::TextButton reverbButton;
+
+    juce::Label adsrLabel;
 	juce::Slider synthAttackSlider;
-	juce::Slider synthDecaySlider;
-	juce::Slider synthSustainSlider;
-	juce::Slider synthReleaseSlider;
-	juce::Label synthAttackLabel;
-	juce::Label synthDecayLabel;
-	juce::Label synthSustainLabel;
-	juce::Label synthReleaseLabel;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthAttackSliderAttachment;
+	juce::Slider synthDecaySlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthDecaySliderAttachment;
+	juce::Slider synthSustainSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthSustainSliderAttachment;
+	juce::Slider synthReleaseSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthReleaseSliderAttachment;
-	
-	juce::Slider juverbSizeSlider;
-	juce::Slider juverbDampingSlider;
-	juce::Slider juverbWidthSlider;
-	juce::ToggleButton juverbFreezeButton;
-	juce::Slider juverbDrySlider;
-	juce::Slider juverbWetSlider;
-	juce::Label juverbSizeLabel;
-	juce::Label juverbDampingLabel;
-	juce::Label juverbWidthLabel;
-	juce::Label juverbDryLabel;
-	juce::Label juverbWetLabel;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbSizeSliderAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbDampingSliderAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbWidthSliderAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> juverbFreezeButtonAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbDrySliderAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> juverbWetSliderAttachment;
-	
-	juce::TextButton loadButton;
-	juce::Label irName;
-	std::unique_ptr<juce::FileChooser> fileChooser;
-	juce::Slider irDrySlider;
-	juce::Slider irWetSlider;
-	juce::Label irDryLabel;
-	juce::Label irWetLabel;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> irDrySliderAttachment;
-	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> irWetSliderAttachment;
-	
-	juce::Slider synthGainSlider;
-	juce::Slider saturationSlider;
-	juce::Slider thiccGainSlider;
-	juce::Slider outputGainSlider;
+
 	juce::Label synthGainLabel;
-	juce::Label saturationLabel;
-	juce::Label thiccGainLabel;
-	juce::Label outputGainLabel;
+	juce::Slider synthGainSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> synthGainSliderAttachment;
+
+	juce::Label saturationLabel;
+	juce::Slider saturationSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> saturationSliderAttachment;
+
+	juce::Label thiccGainLabel;
+	juce::Slider thiccGainSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> thiccGainSliderAttachment;
+
+	juce::Label outputGainLabel;
+	juce::Slider outputGainSlider;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outputGainSliderAttachment;
 
     SinthethiccAudioProcessor& audioProcessor;

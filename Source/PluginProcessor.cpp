@@ -132,6 +132,29 @@ void SinthethiccAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     setParameters();
     
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+	float dBValue = apvts.getRawParameterValue("OUTPUT_GAIN")->load();
+    outputGain.setGainDecibels(dBValue);
+	juce::dsp::AudioBlock<float> block(buffer);
+	outputGain.process(juce::dsp::ProcessContextReplacing<float>(block));
+
+    outputRMSLevelLeft.skip(buffer.getNumSamples());
+    outputRMSLevelRight.skip(buffer.getNumSamples());
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+        if (value < outputRMSLevelLeft.getCurrentValue())
+            outputRMSLevelLeft.setTargetValue(value);
+        else
+            outputRMSLevelLeft.setCurrentAndTargetValue(value);
+    }
+
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
+        if (value < outputRMSLevelRight.getCurrentValue())
+            outputRMSLevelRight.setTargetValue(value);
+        else
+            outputRMSLevelRight.setCurrentAndTargetValue(value);
+    }
 }
 // ============================================================================================
 
@@ -184,17 +207,31 @@ void SinthethiccAudioProcessor::setIR(juce::File file)
     }
 }
 
+float SinthethiccAudioProcessor::getRMSValue(const int bus, const int channel) const
+{
+    jassert(channel == 0 || channel == 1);
+    /*if (bus == 0 && channel == 0)
+        return inputRMSLevelLeft.getCurrentValue();
+    if (bus == 0 && channel == 1)
+        return inputRMSLevelRight.getCurrentValue();*/
+    if (bus == 1 && channel == 0)
+        return outputRMSLevelLeft.getCurrentValue();
+    if (bus == 1 && channel == 1)
+        return outputRMSLevelRight.getCurrentValue();
+}
+
 juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::createParameterLayout()
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.1f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.1f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.1f }, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.1f, 3.0f, 0.1f }, 0.4f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.01f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.01f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.1f, 1.0f, 0.01f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.1f, 3.0f, 0.01f }, 0.4f));
 
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC_GAIN", "Osc Gain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.1f }, 0.8f));
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("NOISE_GAIN", "Noise Gain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.1f }, 1.0f));
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("SIN_DELAY", "Sin Delay", 0.0f, 2.0f, 0.4f));
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC_GAIN", "Osc Gain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f }, 0.8f));
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("NOISE_GAIN", "Noise Gain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f }, 1.0f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERATTACK", "Filter Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f }, 0.01f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERDECAY", "Filter Decay", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.1f }, 0.1f));
@@ -211,10 +248,12 @@ juce::AudioProcessorValueTreeState::ParameterLayout SinthethiccAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("IR_DRY", "IR Dry", 0.0f, 100.0f, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("IR_WET", "IR Wet", 0.0f, 100.0f, 100.0f));
 
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("BALANCE", "Balance", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f }, 0.5f));
+
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SYNTH_GAIN", "Synth Dry", 0.0f, 100.0f, 100.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("THICC_GAIN", "Thicc Wet", 0.0f, 100.0f, 50.0f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("THICC_SATURATION", "Thicc Saturation", juce::NormalisableRange<float> { 0.0f, 100.0f, 1.f }, 50.f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SATURATION", "Thicc Saturation Drive", juce::NormalisableRange<float> { -12.f, 6.0f, 0.1f }, -6.0f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT_GAIN", "Output Level", juce::NormalisableRange<float> { -60.0f, 18.0f, 0.1f }, 0.f, "dB"));
 
@@ -228,6 +267,8 @@ void SinthethiccAudioProcessor::setParameters()
     adsrParameters.decay = *apvts.getRawParameterValue("DECAY");
     adsrParameters.sustain = *apvts.getRawParameterValue("SUSTAIN");
     adsrParameters.release = *apvts.getRawParameterValue("RELEASE");
+
+	float newSinDelay = *apvts.getRawParameterValue("SIN_DELAY");
 
 	float sinGain = *apvts.getRawParameterValue("OSC_GAIN");
 	float noiseGain = *apvts.getRawParameterValue("NOISE_GAIN");
@@ -248,9 +289,11 @@ void SinthethiccAudioProcessor::setParameters()
 	float irDry = *apvts.getRawParameterValue("IR_DRY");
 	float irWet = *apvts.getRawParameterValue("IR_WET");
 
+	float balance = *apvts.getRawParameterValue("BALANCE");
+
 	float synthGain = *apvts.getRawParameterValue("SYNTH_GAIN");
 	float thiccGain = *apvts.getRawParameterValue("THICC_GAIN");
-	float thiccSaturationPercent = *apvts.getRawParameterValue("THICC_SATURATION");
+	float thiccSaturationPercent = *apvts.getRawParameterValue("SATURATION");
 
     float gain = *apvts.getRawParameterValue("OUTPUT_GAIN");
     for (int i = 0; i < synth.getNumVoices(); ++i)
@@ -260,6 +303,7 @@ void SinthethiccAudioProcessor::setParameters()
             voice->setParameters(
                 adsrParameters,
                 filterAdsrParameters,
+                newSinDelay,
                 juverbSize,
                 juverbDamping,
                 juverbWidth,
@@ -268,12 +312,12 @@ void SinthethiccAudioProcessor::setParameters()
                 juverbWet,
                 irDry,
                 irWet,
+				balance,
                 sinGain,
 			    noiseGain,
 				synthGain,
                 thiccSaturationPercent,
-				thiccGain,
-                gain
+				thiccGain
                 );
         }
     }

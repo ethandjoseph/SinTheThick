@@ -1,225 +1,223 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "Components/SynthVoiceEditor.h"
+#include "Components/ReverberationEditor.h"
 
 SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-	synthAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	synthDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	synthSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	synthReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbSizeSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbDampingSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbWidthSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbDrySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	juverbWetSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	irDrySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	irWetSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	synthGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	saturationSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	thiccGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-	outputGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+	inputNoteLabel.setText("Input Note", juce::dontSendNotification);
+	inputNoteLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(inputNoteLabel);
 
-	synthAttackSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	synthDecaySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	synthSustainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	synthReleaseSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	juverbSizeSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	juverbDampingSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	juverbWidthSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	juverbDrySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	juverbWetSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	irDrySlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	irWetSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	synthGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	saturationSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	thiccGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
-	outputGainSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::lime);
+	inputNoteValueLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+	inputNoteValueLabel.setText("Play a Note", juce::dontSendNotification);
+	inputNoteValueLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(inputNoteValueLabel);
 
-	//juverbFreezeButton.setClickingTogglesState(true);
-	/*loadButton.onClick = [this]
-		{
-			fileChooser = std::make_unique<juce::FileChooser>("Select .wav IR file to load", audioProcessor.root, "*.wav");
-			const auto fileChooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-			fileChooser->launchAsync(fileChooserFlags, [this](const juce::FileChooser& fc)
-				{
-					auto file = fc.getResult();
-					if (file.exists())
-					{
-						audioProcessor.setIR(file);
-						irName.setText(file.getFileName().substring(0, 14), juce::dontSendNotification);
-						irName.setJustificationType(juce::Justification::centred);
-					}
-				});
-		};*/
+	voicingLabel.setText("Voicing", juce::dontSendNotification);
+	voicingLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(voicingLabel);
 
-	loadButton.onClick = [this] {showReverberationSettingsWindow(); };
+	synthVoiceButton.setButtonText("Synth");
+	synthVoiceButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff3E4D8F));
+	synthVoiceButton.onClick = [this] { showSynthVoiceEditorWindow(); };
+	addAndMakeVisible(synthVoiceButton);
 
-	synthAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	synthDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	synthSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	synthReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	juverbSizeSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	juverbDampingSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	juverbWidthSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	juverbDrySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	juverbWetSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	irDrySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	irWetSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	synthGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	saturationSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	thiccGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-	outputGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
+	reverbButton.setButtonText("Reverberators");
+	reverbButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff3D4B8C));
+	reverbButton.onClick = [this] { showReverberationEditorWindow(); };
+	addAndMakeVisible(reverbButton);
 
+	adsrLabel.setText("ADSR", juce::dontSendNotification);
+	adsrLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(adsrLabel);
+
+	synthAttackSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthAttackSlider.setScrollWheelEnabled(true);
 	synthAttackSlider.setTextValueSuffix("s");
-	synthDecaySlider.setTextValueSuffix("s");
-	synthSustainSlider.setTextValueSuffix("s");
-	synthReleaseSlider.setTextValueSuffix("s");
-	juverbSizeSlider.setTextValueSuffix("m");
-	juverbDampingSlider.setTextValueSuffix("Hz");
-	juverbWidthSlider.setTextValueSuffix("Hz");
-	juverbDrySlider.setTextValueSuffix("%");
-	juverbWetSlider.setTextValueSuffix("%");
-	irDrySlider.setTextValueSuffix("%");
-	irWetSlider.setTextValueSuffix("%");
-	synthGainSlider.setTextValueSuffix("%");
-	saturationSlider.setTextValueSuffix("%");
-	thiccGainSlider.setTextValueSuffix("%");
-	outputGainSlider.setTextValueSuffix("dB");
-
-	synthAttackLabel.setText("Attack", juce::dontSendNotification);
-	synthDecayLabel.setText("Decay", juce::dontSendNotification);
-	synthSustainLabel.setText("Sustain", juce::dontSendNotification);
-	synthReleaseLabel.setText("Release", juce::dontSendNotification);
-	juverbSizeLabel.setText("Room Size", juce::dontSendNotification);
-	juverbDampingLabel.setText("Damping", juce::dontSendNotification);
-	juverbWidthLabel.setText("Width", juce::dontSendNotification);
-	juverbFreezeButton.setButtonText("Freeze");
-	loadButton.setButtonText("Load IR");
-	loadButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xff1e2545));
-	juverbDryLabel.setText("Ju Dry", juce::dontSendNotification);
-	juverbWetLabel.setText("Ju Wet", juce::dontSendNotification);
-	irDryLabel.setText("IR Dry", juce::dontSendNotification);
-	irWetLabel.setText("IR Wet", juce::dontSendNotification);
-	loadButton.setButtonText("Load IR");
-
-	synthGainLabel.setText("Synth Gain", juce::dontSendNotification);
-	saturationLabel.setText("Thicc Saturation", juce::dontSendNotification);
-	thiccGainLabel.setText("Thicc Gain", juce::dontSendNotification);
-	outputGainLabel.setText("Output Gain", juce::dontSendNotification);
-
-	synthAttackLabel.attachToComponent(&synthAttackSlider, false);
-	synthDecayLabel.attachToComponent(&synthDecaySlider, false);
-	synthSustainLabel.attachToComponent(&synthSustainSlider, false);
-	synthReleaseLabel.attachToComponent(&synthReleaseSlider, false);
-	juverbSizeLabel.attachToComponent(&juverbSizeSlider, false);
-	juverbDampingLabel.attachToComponent(&juverbDampingSlider, false);
-	juverbWidthLabel.attachToComponent(&juverbWidthSlider, false);
-	juverbDryLabel.attachToComponent(&juverbDrySlider, false);
-	juverbWetLabel.attachToComponent(&juverbWetSlider, false);
-	irDryLabel.attachToComponent(&irDrySlider, false);
-	irWetLabel.attachToComponent(&irWetSlider, false);
-	synthGainLabel.attachToComponent(&synthGainSlider, false);
-	saturationLabel.attachToComponent(&saturationSlider, false);
-	thiccGainLabel.attachToComponent(&thiccGainSlider, false);
-	outputGainLabel.attachToComponent(&outputGainSlider, false);
-
+	synthAttackSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	synthAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", synthAttackSlider);
 	addAndMakeVisible(synthAttackSlider);
-	addAndMakeVisible(synthDecaySlider);
-	addAndMakeVisible(synthSustainSlider);
-	addAndMakeVisible(synthReleaseSlider);
-	/*addAndMakeVisible(juverbSizeSlider);
-	addAndMakeVisible(juverbDampingSlider);
-	addAndMakeVisible(juverbWidthSlider);
-	addAndMakeVisible(juverbFreezeButton);*/
-	addAndMakeVisible(loadButton);
-	/*addAndMakeVisible(irName);
-	addAndMakeVisible(juverbDrySlider);
-	addAndMakeVisible(juverbWetSlider);
-	addAndMakeVisible(irDrySlider);
-	addAndMakeVisible(irWetSlider);*/
 
+	synthDecaySlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthDecaySlider.setScrollWheelEnabled(true);
+	synthDecaySlider.setTextValueSuffix("s");
+	synthDecaySlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	synthDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", synthDecaySlider);
+	addAndMakeVisible(synthDecaySlider);
+
+	synthSustainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthSustainSlider.setScrollWheelEnabled(true);
+	synthSustainSlider.setTextValueSuffix("s");
+	synthSustainSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	synthSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", synthSustainSlider);
+	addAndMakeVisible(synthSustainSlider);
+
+	synthReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthReleaseSlider.setScrollWheelEnabled(true);
+	synthReleaseSlider.setTextValueSuffix("s");
+	synthReleaseSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	synthReleaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", synthReleaseSlider);
+	addAndMakeVisible(synthReleaseSlider);
+
+	synthGainLabel.setText("Synth Level", juce::dontSendNotification);
+	synthGainLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(synthGainLabel);
+
+	synthGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+	synthGainSlider.setScrollWheelEnabled(true);
+	synthGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 80, 20);
+	synthGainSlider.setTextValueSuffix("%");
+	synthGainSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	synthGainSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
+	synthGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SYNTH_GAIN", synthGainSlider);
 	addAndMakeVisible(synthGainSlider);
+
+	saturationLabel.setText("Thicc Drive", juce::dontSendNotification);
+	saturationLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(saturationLabel);
+
+	saturationSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+	saturationSlider.setScrollWheelEnabled(true);
+	saturationSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 80, 20);
+	saturationSlider.setTextValueSuffix("dB");
+	saturationSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	saturationSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
+	saturationSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SATURATION", saturationSlider);
 	addAndMakeVisible(saturationSlider);
+
+	thiccGainLabel.setText("Thicc Level", juce::dontSendNotification);
+	thiccGainLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(thiccGainLabel);
+
+	thiccGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+	thiccGainSlider.setScrollWheelEnabled(true);
+	thiccGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 80, 20);
+	thiccGainSlider.setTextValueSuffix("%");
+	thiccGainSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
+	thiccGainSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
+	thiccGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_GAIN", thiccGainSlider);
 	addAndMakeVisible(thiccGainSlider);
+
+	outputGainLabel.setText("Output", juce::dontSendNotification);
+	outputGainLabel.setJustificationType(juce::Justification::centred);
+	addAndMakeVisible(outputGainLabel);
+
+	outputGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+	outputGainSlider.setScrollWheelEnabled(true);
+	outputGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 80, 20);
+	outputGainSlider.setTextValueSuffix("dB");
+	outputGainSlider.setColour(juce::Label::textColourId, juce::Colours::transparentWhite);
+	outputGainSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
+	outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "OUTPUT_GAIN", outputGainSlider);
 	addAndMakeVisible(outputGainSlider);
 
-	synthAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", synthAttackSlider);
-	synthDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", synthDecaySlider);
-	synthSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", synthSustainSlider);
-	synthReleaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", synthReleaseSlider);
-	juverbSizeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "JUVERB_ROOM_SIZE", juverbSizeSlider);
-	juverbDampingSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "JUVERB_DAMPING", juverbDampingSlider);
-	juverbWidthSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "JUVERB_WIDTH", juverbWidthSlider);
-	juverbFreezeButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, "JUVERB_FREEZE", juverbFreezeButton);
-	juverbDrySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "JUVERB_DRY", juverbDrySlider);
-	juverbWetSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "JUVERB_WET", juverbWetSlider);
-	irDrySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IR_DRY", irDrySlider);
-	irWetSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IR_WET", irWetSlider);
-	synthGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SYNTH_GAIN", synthGainSlider);
-	saturationSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_SATURATION", saturationSlider);
-	thiccGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THICC_GAIN", thiccGainSlider);
+	addAndMakeVisible(outputVUMeterLeft);
+	addAndMakeVisible(outputVUMeterRight);
+
 	outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "OUTPUT_GAIN", outputGainSlider);
 
-    setSize (600, 840);
+	startTimerHz(30);
+
+    setSize (608, 220);
 }
 
 SinthethiccAudioProcessorEditor::~SinthethiccAudioProcessorEditor()
 {
 }
 
+void SinthethiccAudioProcessorEditor::timerCallback()
+{
+	auto midiNoteNumber = audioProcessor.getCurrentMidiNoteNumber();
+	if (midiNoteNumber >= 0)
+	{
+		auto noteName = juce::MidiMessage::getMidiNoteName(midiNoteNumber, true, true, 3);
+		inputNoteValueLabel.setColour(juce::Label::textColourId, juce::Colours::lime);
+		inputNoteValueLabel.setText(noteName, juce::dontSendNotification);
+	}
+	else
+	{
+		inputNoteValueLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+		inputNoteValueLabel.setText("Play a Note!", juce::dontSendNotification);
+	}
+
+	/*float inputLevelLeft = audioProcessor.getRMSValue(0, 0);
+	float inputLevelRight = audioProcessor.getRMSValue(0, 1);*/
+	float outputLevelLeft = audioProcessor.getRMSValue(1, 0);
+	float outputLevelRight = audioProcessor.getRMSValue(1, 1);
+
+	/*inputVUMeterLeft.setLevel(inputLevelLeft);
+	inputVUMeterRight.setLevel(inputLevelRight);*/
+	outputVUMeterLeft.setLevel(outputLevelLeft);
+	outputVUMeterRight.setLevel(outputLevelRight);
+
+	/*inputVUMeterLeft.repaint();
+	inputVUMeterRight.repaint();*/
+	outputVUMeterLeft.repaint();
+	outputVUMeterRight.repaint();
+}
+
 void SinthethiccAudioProcessorEditor::paint (juce::Graphics& g)
 {
 	g.fillAll(juce::Colour(0xff1e2545));
+	juce::Image bg = juce::ImageCache::getFromMemory(BinaryData::main_bg_png, BinaryData::main_bg_pngSize);
+	g.drawImageAt(bg, 0, 0);
 }
 
 void SinthethiccAudioProcessorEditor::resized()
 {
-	auto area = getLocalBounds().reduced(20);
-	int sliderWidth = area.getWidth() / 4;
-	int sliderHeightWithLabel = area.getHeight() / 4;
-	int sliderHeight = sliderHeightWithLabel * 4 / 5;
-	int labelHeight = sliderHeightWithLabel - sliderHeight;
+	inputNoteLabel.setBounds(20, 20, 100, 20);
+	inputNoteValueLabel.setBounds(20, 50, 100, 50);
 
-	auto row1 = area.removeFromTop(sliderHeight + labelHeight);
-	synthAttackSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	synthDecaySlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	synthSustainSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	synthReleaseSlider.setBounds(row1.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	voicingLabel.setBounds(140, 20, 100, 20);
+	synthVoiceButton.setBounds(140, 50, 100, 20);
+	reverbButton.setBounds(140, 80, 100, 20);
 
-	auto row2 = area.removeFromTop(sliderHeight + labelHeight);
-	/*juverbSizeSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	juverbDampingSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	juverbWidthSlider.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	juverbFreezeButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));*/
-	loadButton.setBounds(row2.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	irName.setBounds(loadButton.getBounds().removeFromBottom(32));
+	adsrLabel.setBounds(20, 110, 220, 20);
+	synthAttackSlider.setBounds(20, 140, 46, 60);
+	synthDecaySlider.setBounds(78, 140, 46, 60);
+	synthSustainSlider.setBounds(136, 140, 46, 60);
+	synthReleaseSlider.setBounds(194, 140, 46, 60);
 
-	auto row3 = area.removeFromTop(sliderHeight + labelHeight);
-	juverbDrySlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	juverbWetSlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	irDrySlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	irWetSlider.setBounds(row3.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	synthGainLabel.setBounds(260, 20, 80, 20);
+	synthGainSlider.setBounds(260, 40, 80, 160);
 
-	auto row4 = area.removeFromTop(sliderHeight + labelHeight);
-	synthGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	saturationSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	thiccGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
-	outputGainSlider.setBounds(row4.removeFromLeft(sliderWidth).reduced(0, labelHeight));
+	saturationLabel.setBounds(350, 20, 80, 20);
+	saturationSlider.setBounds(350, 40, 80, 160);
+
+	thiccGainLabel.setBounds(440, 20, 80, 20);
+	thiccGainSlider.setBounds(440, 40, 80, 160);
+
+	outputVUMeterLeft.setBounds(546, 55, 4, 110);
+	outputVUMeterRight.setBounds(582, 55, 4, 110);
+
+	outputGainLabel.setBounds(534, 20, 64, 20);
+	outputGainSlider.setBounds(534, 40, 64, 160);
 }
 
-void SinthethiccAudioProcessorEditor::showReverberationSettingsWindow()
+void SinthethiccAudioProcessorEditor::showSynthVoiceEditorWindow()
 {
 	juce::DialogWindow::LaunchOptions options;
 	options.content.setOwned(new SynthVoiceEditor(audioProcessor.apvts));
-
-	options.content->setSize(400, 200);
-	options.dialogTitle = "Row 4 Sliders";
+	options.content->setSize(380, 220);
+	options.dialogTitle = "Synth Voice Settings";
 	options.dialogBackgroundColour = juce::Colour(0xff1e2545);
 	options.escapeKeyTriggersCloseButton = true;
 	options.useNativeTitleBar = true;
 	options.resizable = false;
+	options.launchAsync();
+}
 
+void SinthethiccAudioProcessorEditor::showReverberationEditorWindow()
+{
+	juce::DialogWindow::LaunchOptions options;
+	options.content.setOwned(new ReverberationEditor(audioProcessor.apvts, audioProcessor));
+	options.content->setSize(780, 261);
+	options.dialogTitle = "Synth Voice Settings";
+	options.dialogBackgroundColour = juce::Colour(0xff1e2545);
+	options.escapeKeyTriggersCloseButton = true;
+	options.useNativeTitleBar = true;
+	options.resizable = false;
 	options.launchAsync();
 }

@@ -12,12 +12,15 @@ public:
 
 private:
 	juce::Slider oscGainSlider;
-	juce::Slider noiseGainSlider;
-
 	juce::Label oscGainLabel;
-	juce::Label noiseGainLabel;
-
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> oscGainSliderAttachment;
+
+	juce::Slider oscDelaySlider;
+	juce::Label oscDelayLabel;
+	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> oscDelaySliderAttachment;
+	
+	juce::Slider noiseGainSlider;
+	juce::Label noiseGainLabel;
 	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> noiseGainSliderAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthVoiceEditor)
