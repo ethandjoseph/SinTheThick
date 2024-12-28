@@ -14,5 +14,5 @@
 2. Convert into audio effect with polyphonic pitch tracking
 
 ## [Releases](https://github.com/ethandjoseph/SinThiccizer/releases)
-[Latest version V.10](https://github.com/ethandjoseph/SinThiccizer/releases/tag/v1.0)
+[Latest version V.10](https://github.com/ethandjoseph/SinThiccizer/releases/tag/v1.0) <br>
 You can [view the pre-release, alpha version here](https://github.com/ethandjoseph/SinThiccizer/tree/alpha)
