@@ -7,7 +7,7 @@
 ![SinThiccizer output screenshot](https://github.com/ethandjoseph/SinThiccizer/blob/main/testBed%20screenshot.png)
 
 ## Signal Chain
-![Signal Chain](https://github.com/ethandjoseph/Sinthethicc/blob/main/Signal%20Chain.png)
+![Signal Chain](https://github.com/ethandjoseph/Sinthethicc/blob/main/Signal%20Chain.png | width=100)
 
 ### Future goals:
 1. Make polyphonic
