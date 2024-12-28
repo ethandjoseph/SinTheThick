@@ -13,5 +13,6 @@
 1. Make polyphonic
 2. Convert into audio effect with polyphonic pitch tracking
 
-## Releases
-You can [view the pre-release here](https://github.com/ethandjoseph/Sinthethicc/releases)
+## [Releases](https://github.com/ethandjoseph/SinThiccizer/releases)
+[Latest version V.10](https://github.com/ethandjoseph/SinThiccizer/releases/tag/v1.0)
+You can [view the pre-release, alpha version here](https://github.com/ethandjoseph/SinThiccizer/tree/alpha)
