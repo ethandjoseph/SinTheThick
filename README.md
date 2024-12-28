@@ -15,4 +15,4 @@
 
 ## [Releases](https://github.com/ethandjoseph/SinThiccizer/releases)
 [Latest version v1.0](https://github.com/ethandjoseph/SinThiccizer/releases/tag/v1.0) <br>
-View the pre-release, alpha version on the [aplha branch](https://github.com/ethandjoseph/SinThiccizer/tree/alpha).
+View the pre-release, alpha version on the [alpha branch](https://github.com/ethandjoseph/SinThiccizer/tree/alpha).
