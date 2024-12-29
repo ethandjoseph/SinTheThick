@@ -5,7 +5,6 @@
  I decided to give this a shot, but by refining it using my [overtonePass filter](https://github.com/ethandjoseph/Overtone-Pass-Filter).
 
 ![SinThiccizer output screenshot](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/testBed%20screenshot.png) <br>
-![Reverb settings](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/reverberator%20settings%20screenshot.png)
 ![Synth settings](https://github.com/ethandjoseph/SinThiccizer/blob/main/Screenshots/synth%20voice%20settings%20screenshot.png)
 
 ## Signal Chain
