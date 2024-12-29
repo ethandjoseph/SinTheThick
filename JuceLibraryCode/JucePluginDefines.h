@@ -56,10 +56,10 @@
  #define JucePlugin_ManufacturerEmail      ""
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x4d616e75
+ #define JucePlugin_ManufacturerCode       0x45445350
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x4239726c
+ #define JucePlugin_PluginCode             0x54484343
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                1
@@ -122,7 +122,7 @@
  #define JucePlugin_AAXProductId           JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AAXCategory
- #define JucePlugin_AAXCategory            2048
+ #define JucePlugin_AAXCategory            10240
 #endif
 #ifndef  JucePlugin_AAXDisableBypass
  #define JucePlugin_AAXDisableBypass       0
