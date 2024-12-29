@@ -34,6 +34,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(adsrLabel);
 
 	synthAttackSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthAttackSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
 	synthAttackSlider.setScrollWheelEnabled(true);
 	synthAttackSlider.setTextValueSuffix("s");
 	synthAttackSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
@@ -41,6 +42,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(synthAttackSlider);
 
 	synthDecaySlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthDecaySlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
 	synthDecaySlider.setScrollWheelEnabled(true);
 	synthDecaySlider.setTextValueSuffix("s");
 	synthDecaySlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
@@ -48,6 +50,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(synthDecaySlider);
 
 	synthSustainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthSustainSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
 	synthSustainSlider.setScrollWheelEnabled(true);
 	synthSustainSlider.setTextValueSuffix("s");
 	synthSustainSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
@@ -55,6 +58,7 @@ SinthethiccAudioProcessorEditor::SinthethiccAudioProcessorEditor (SinthethiccAud
 	addAndMakeVisible(synthSustainSlider);
 
 	synthReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+	synthReleaseSlider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
 	synthReleaseSlider.setScrollWheelEnabled(true);
 	synthReleaseSlider.setTextValueSuffix("s");
 	synthReleaseSlider.setColour(juce::Slider::trackColourId, juce::Colours::lime);
@@ -138,7 +142,7 @@ void SinthethiccAudioProcessorEditor::timerCallback()
 	}
 	else
 	{
-		inputNoteValueLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+		inputNoteValueLabel.setColour(juce::Label::textColourId, juce::Colours::grey);
 		inputNoteValueLabel.setText("Play a Note!", juce::dontSendNotification);
 	}
 

@@ -18,13 +18,13 @@ namespace BinaryData
     const int            largeRoom_wavSize = 1639532;
 
     extern const char*   main_bg_png;
-    const int            main_bg_pngSize = 114556;
+    const int            main_bg_pngSize = 116987;
 
     extern const char*   synth_bg_png;
-    const int            synth_bg_pngSize = 73705;
+    const int            synth_bg_pngSize = 76208;
 
     extern const char*   verb_bg_png;
-    const int            verb_bg_pngSize = 174001;
+    const int            verb_bg_pngSize = 175870;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 6;

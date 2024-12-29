@@ -121,7 +121,7 @@ void ReverberationEditor::resized()
 	//balanceLabel.setBounds(340, 220, 100, 20);
 	irReverbLabel.setBounds(660, 220, 100, 20);
 
-	balanceSlider.setBounds(120, 220, 540, 20);
+	balanceSlider.setBounds(120, 213, 540, 34);
 
 	setSize(780, 261);
 }
