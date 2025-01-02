@@ -10,20 +10,12 @@ public:
             {
                 float out = in;
 
-                if (in <= -1.7f)
+                if (in <= -1.0f)
                     out = -1.0f;
-                else if ((in > -1.7f) && (in < -0.3f))
-                {
-                    in += 0.3f;
-                    out = in + (in * in) / (4 * (1 - 0.3f)) - 0.3f;
-                }
-                else if ((in > 0.9f) && (in < 1.1f))
-                {
-                    in -= 0.9f;
-                    out = in - (in * in) / (4 * (1 - 0.9f)) + 0.9f;
-                }
-                else if (in > 1.1f)
+                else if (in >= 1.0f)
                     out = 1.0f;
+                else
+                    out = in * (1.5f - 0.5f * std::exp(-2.0f * in * in));
 
                 return out;
             };
